@@ -1,13 +1,10 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native"
+import React from "react"
 import "../global.css"
+import { Redirect } from "expo-router"
 
 const Index = () => {
-  return (
-    <View>
-      <Text>Index</Text>
-    </View>
-  )
+  return <Redirect href="/login" />
 }
 
 export default Index
