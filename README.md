@@ -541,6 +541,15 @@ In modern mobile development, we often move away from building traditional custo
     * *Examples:* Firebase, Supabase, AWS Amplify.
 
 ### Architectural Patterns
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/shamodhas-ijse-teaching/file-hosting/main/images/firebase-architecture-comparison.png" 
+       alt="Firebase vs Traditional Architecture" 
+       style="width:100%; max-width:800px; border:1px solid #ccc; border-radius:10px;">
+  <br>
+  <b>Figure: Traditional Backend vs. Firebase (BaaS) Architecture</b>
+</p>
+
 1.  **Frontend + BaaS (Firebase):**
     * The mobile app connects directly to Firebase.
     * No intermediate server is required.
@@ -580,6 +589,14 @@ These are the specific modules we will use in this course:
 | **Firestore**      | Database    | A flexible, scalable NoSQL cloud database for storing and syncing data.    |
 | **Storage**        | File Handle | Stores and serves user-generated content like photos and videos.           |
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/shamodhas-ijse-teaching/file-hosting/main/images/firestore-collection-document-model.png" 
+       alt="Firestore Data Structure" 
+       style="width:100%; max-width:800px; border:1px solid #ccc; border-radius:10px;">
+  <br>
+  <b>Figure: Firestore NoSQL Structure (Collections & Documents)</b>
+</p>
+
 > **Note:** While Firebase uses its own SDKs, other backend approaches use **GraphQL APIs** (Single Endpoint) or REST APIs.
 
 ---
@@ -595,6 +612,14 @@ These are the specific modules we will use in this course:
 ## 3.5 Local Data Storage in React Native
 
 Mobile apps often need to store data on the device itself (e.g., to keep a user logged in or save settings). We use two different libraries depending on the **sensitivity** of the data.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/shamodhas-ijse-teaching/file-hosting/main/images/react-native-local-storage-security.png" 
+       alt="Async Storage vs Secure Store" 
+       style="width:100%; max-width:800px; border:1px solid #ccc; border-radius:10px;">
+  <br>
+  <b>Figure: Security Comparison – Async Storage vs. Secure Store</b>
+</p>
 
 ### A. Async Storage (Non-Sensitive)
 * **Library:** `async-storage`
