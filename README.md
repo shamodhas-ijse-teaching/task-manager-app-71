@@ -526,3 +526,85 @@ You don't need to guess icon names. Use the official directory to search for ico
 
 * [Browse All Icons (Expo Icon Directory)](https://icons.expo.fyi/Index)
 * [Package Documentation (npm)](https://www.npmjs.com/package/@expo/vector-icons)
+
+---
+
+# 📘 Day 3: Backend Services (Firebase) & Local Storage
+
+## 3.1 Introduction to Backend Services
+
+In modern mobile development, we often move away from building traditional custom servers for every application, favoring managed services.
+
+### SaaS vs. BaaS
+* **SaaS (Software as a Service):** Complete software solutions delivered over the internet (e.g., Google Workspace, Zoom).
+* **BaaS (Backend as a Service):** Cloud-based backend services that provide developers with APIs for backend functions, allowing them to focus entirely on the Frontend.
+    * *Examples:* Firebase, Supabase, AWS Amplify.
+
+### Architectural Patterns
+1.  **Frontend + BaaS (Firebase):**
+    * The mobile app connects directly to Firebase.
+    * No intermediate server is required.
+    
+2.  **Frontend + Custom Backend + Firebase:**
+    * A hybrid approach.
+    * *Example:* Using a Node.js server for complex business logic while offloading Authentication and Notifications to Firebase.
+
+---
+
+## 3.2 Firebase Overview
+
+Google’s mobile platform that helps you quickly develop high-quality apps and grow your business.
+
+### Why use Firebase? (Advantages)
+* **Minimal Backend Code:** Reduces the need to write boilerplate server-side code.
+* **Real-time Updates:** Data syncs across all clients in milliseconds (via WebSockets).
+* **Secure:** Built-in security rules for data protection.
+* **Scalable:** Automatically handles infrastructure scaling.
+* **Free Tier:** Generous limits for development.
+
+### Common Use Cases
+* **Login Systems:** Social auth (Google, Facebook) and email/password.
+* **Chat Apps:** Leveraging real-time database capabilities.
+* **E-commerce:** Real-time inventory and order tracking.
+* **Dashboards:** Live analytics and monitoring.
+
+---
+
+## 3.3 Core Firebase Services
+
+These are the specific modules we will use in this course:
+
+| Service            | Function    | Description                                                                |
+| :----------------- | :---------- | :------------------------------------------------------------------------- |
+| **Authentication** | Security    | Manages users, sign-ins (Email, Google, Phone), and identity verification. |
+| **Firestore**      | Database    | A flexible, scalable NoSQL cloud database for storing and syncing data.    |
+| **Storage**        | File Handle | Stores and serves user-generated content like photos and videos.           |
+
+> **Note:** While Firebase uses its own SDKs, other backend approaches use **GraphQL APIs** (Single Endpoint) or REST APIs.
+
+---
+
+## 3.4 Supabase (Alternative)
+
+**Supabase** is a popular open-source alternative to Firebase.
+* **Database:** Uses **PostgreSQL** (Relational) instead of NoSQL.
+* **API:** Provides a single endpoint to fetch specific data efficiently.
+
+---
+
+## 3.5 Local Data Storage in React Native
+
+Mobile apps often need to store data on the device itself (e.g., to keep a user logged in or save settings). We use two different libraries depending on the **sensitivity** of the data.
+
+### A. Async Storage (Non-Sensitive)
+* **Library:** `async-storage`
+* **Type:** Unencrypted, asynchronous, key-value storage system.
+* **Use Case:** Storing **public** or **non-critical** data.
+    * *Examples:* App theme (Dark/Light), user preferences, local caching.
+
+### B. Expo Secure Store (Sensitive)
+* **Library:** `expo-secure-store`
+* **Type:** Encrypted storage.
+* **Mechanism:** Uses the device's native security infrastructure (Keychain on iOS, Keystore on Android).
+* **Use Case:** Storing **private** or **critical** data.
+    * *Examples:* User Authentication Tokens (JWT), API Keys, Passwords.
