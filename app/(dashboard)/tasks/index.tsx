@@ -3,20 +3,30 @@ import React, { useCallback, useState } from "react"
 import { MaterialIcons } from "@expo/vector-icons"
 import { useFocusEffect, useRouter } from "expo-router"
 import { useLoader } from "@/hooks/useLoader"
-import { getAllTask, completeTask, deleteTask } from "@/services/taskService"
+import {
+  getAllTask,
+  getAllTaskByStatus,
+  completeTask,
+  deleteTask
+} from "@/services/taskService"
 import { Task } from "@/types/task"
+
+type Tab = "All" | "Completed" | "Pending"
 
 const Tasks = () => {
   const router = useRouter()
   const { showLoader, hideLoader } = useLoader()
   const [tasks, setTasks] = useState<Task[]>([])
+  const [activeTab, setActiveTab] = useState<Tab>("All")
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (tab: Tab = "All") => {
     showLoader()
     try {
-      const data = await getAllTask()
+      let data: Task[] = []
+      if (tab === "All") data = await getAllTask()
+      else data = await getAllTaskByStatus(tab === "Completed")
       setTasks(data)
-    } catch (err: any) {
+    } catch {
       Alert.alert("Error", "Error fetching tasks")
     } finally {
       hideLoader()
@@ -25,16 +35,16 @@ const Tasks = () => {
 
   useFocusEffect(
     useCallback(() => {
-      fetchTasks()
-    }, [])
+      fetchTasks(activeTab)
+    }, [activeTab])
   )
 
   const handleComplete = async (id: string, currentStatus: boolean) => {
     showLoader()
     try {
       await completeTask(id, !currentStatus)
-      await fetchTasks()
-    } catch (error: any) {
+      fetchTasks(activeTab)
+    } catch {
       Alert.alert("Error", "Could not update task")
     } finally {
       hideLoader()
@@ -54,8 +64,8 @@ const Tasks = () => {
             showLoader()
             try {
               await deleteTask(id)
-              await fetchTasks()
-            } catch (error: any) {
+              fetchTasks(activeTab)
+            } catch {
               Alert.alert("Error", "Could not delete task")
             } finally {
               hideLoader()
@@ -67,25 +77,34 @@ const Tasks = () => {
   }
 
   const handleEdit = (id: string) => {
-    router.push({
-      pathname: "/tasks/form",
-      params: { taskId: id }
-    })
+    router.push({ pathname: "/tasks/form", params: { taskId: id } })
   }
 
-  const formatDate = (dateStr: string | number | Date) => {
-    const date = new Date(dateStr)
-    return date.toLocaleDateString("en-US", {
+  const formatDate = (dateStr: string | number | Date) =>
+    new Date(dateStr).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit"
     })
-  }
 
   return (
     <View className="flex-1 bg-gray-50">
+      <View className="flex-row justify-around py-3 bg-white border-b border-gray-200">
+        {(["All", "Completed", "Pending"] as Tab[]).map((tab) => (
+          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+            <Text
+              className={`text-lg font-semibold ${
+                activeTab === tab ? "text-blue-600" : "text-gray-500"
+              }`}
+            >
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       <TouchableOpacity
         className="bg-blue-600/80 rounded-full shadow-lg absolute bottom-0 right-0 m-6 p-2 z-50"
         onPress={() => router.push("/tasks/form")}

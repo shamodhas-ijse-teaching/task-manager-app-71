@@ -45,7 +45,6 @@ export const getAllTask = async () => {
   // Firestore composite index needed (self-study):
   // Collection: 'tasks', Fields: userId ASC, createdAt DESC
 
-
   const snapshot = await getDocs(q)
   return snapshot.docs.map(dataSet => {
     const data = dataSet.data()
@@ -137,4 +136,28 @@ export const getTaskCounts = async () => {
   const completedCount = tasks.filter(task => task.isComplete).length
   const pendingCount = tasks.filter(task => !task.isComplete).length
   return { completedCount, pendingCount }
+}
+
+export const getAllTaskByStatus = async (isComplete: boolean) => {
+  const user = auth.currentUser
+  if (!user) throw new Error('User not authenticated.')
+
+  const q = query(
+    tasksCollection,
+    where('userId', '==', user.uid),
+    where('isComplete', '==', isComplete),
+    orderBy('createdAt', 'desc')
+  )
+
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map(docSnap => {
+    const data = docSnap.data()
+    return {
+      id: docSnap.id,
+      title: data.title as string,
+      description: data.description as string,
+      isComplete: (data.isComplete as boolean) || false,
+      createdAt: data.createdAt as string
+    }
+  })
 }
