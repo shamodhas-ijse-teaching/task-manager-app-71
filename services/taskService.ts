@@ -42,10 +42,9 @@ export const getAllTask = async () => {
     where('userId', '==', user.uid),
     orderBy('createdAt', 'desc')
   )
-  // indexs needed for this query
-  // userId as ascending
-  // createdAt as descending
-  // tasks collection
+  // Firestore composite index needed (self-study):
+  // Collection: 'tasks', Fields: userId ASC, createdAt DESC
+
 
   const snapshot = await getDocs(q)
   return snapshot.docs.map(dataSet => {
