@@ -158,7 +158,7 @@ const Tasks = () => {
                 <View className="flex-row justify-end mt-2 space-x-3">
                   <TouchableOpacity
                     onPress={() => handleEdit(task.id)}
-                    className="p-2 rounded-full bg-blue-500"
+                    className="p-2 rounded-full bg-yellow-500"
                   >
                     <MaterialIcons name="edit" size={28} color="#ffffff" />
                   </TouchableOpacity>
