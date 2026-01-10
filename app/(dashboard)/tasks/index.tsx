@@ -18,7 +18,7 @@ const Tasks = () => {
       const data = await getAllTask()
       setTasks(data)
     } catch (err: any) {
-      Alert.alert("Error", "Error fetching tasks", err.message || "")
+      Alert.alert("Error", "Error fetching tasks")
     } finally {
       hideLoader()
     }
@@ -26,8 +26,6 @@ const Tasks = () => {
 
   useEffect(() => {
     fetchTasks()
-
-   
   }, [])
 
   const handleComplete = async (id: string, currentStatus: boolean) => {
