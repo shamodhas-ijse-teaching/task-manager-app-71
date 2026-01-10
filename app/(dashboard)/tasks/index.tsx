@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Alert, ScrollView } from "react-native"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { MaterialIcons } from "@expo/vector-icons"
 import { useFocusEffect, useRouter } from "expo-router"
 import { useLoader } from "@/hooks/useLoader"
@@ -73,6 +73,17 @@ const Tasks = () => {
     })
   }
 
+  const formatDate = (dateStr: string | number | Date) => {
+    const date = new Date(dateStr)
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    })
+  }
+
   return (
     <View className="flex-1 bg-gray-50">
       <TouchableOpacity
@@ -136,24 +147,28 @@ const Tasks = () => {
                         : "radio-button-unchecked"
                     }
                     size={28}
-                    color={task.isComplete ? "green" : "gray"}
+                    color={task.isComplete ? "#16A34A" : "#6B7280"}
                   />
                 </TouchableOpacity>
               </TouchableOpacity>
-
-              <View className="flex-row justify-end mt-2">
-                <TouchableOpacity
-                  onPress={() => handleEdit(task.id)}
-                  className="p-2 rounded-full bg-yellow-500"
-                >
-                  <MaterialIcons name="edit" size={28} color="#ffffff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleDelete(task.id)}
-                  className="p-2 ms-3 rounded-full bg-red-500"
-                >
-                  <MaterialIcons name="delete" size={28} color="#ffffff" />
-                </TouchableOpacity>
+              <View className="flex-row justify-between items-end">
+                <Text className="text-gray-500 text-sm mb-1">
+                  Created: {task.createdAt ? formatDate(task.createdAt) : "-"}
+                </Text>
+                <View className="flex-row justify-end mt-2 space-x-3">
+                  <TouchableOpacity
+                    onPress={() => handleEdit(task.id)}
+                    className="p-2 rounded-full bg-blue-500"
+                  >
+                    <MaterialIcons name="edit" size={28} color="#ffffff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDelete(task.id)}
+                    className="p-2 ms-2 rounded-full bg-red-500"
+                  >
+                    <MaterialIcons name="delete" size={28} color="#ffffff" />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           ))
